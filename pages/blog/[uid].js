@@ -9,7 +9,7 @@ import { Layout } from "../../components/Layout";
 import { PrismicRichText } from '@prismicio/react'
 
 const Page = ({ blogposts, navigation, settings }) => {
-  
+  console.log(blogposts)
   return (
     <Layout navigation={navigation} settings={settings}>
       <Head>

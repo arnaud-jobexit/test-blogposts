@@ -184,6 +184,17 @@ interface PageDocumentData {
      */
     parent: prismicT.RelationField<"page">;
     /**
+     * blogposts field in *Page*
+     *
+     * - **Field Type**: Content Relationship
+     * - **Placeholder**: *None*
+     * - **API ID Path**: page.blogposts
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    blogposts: prismicT.RelationField<"blogposts">;
+    /**
      * Slice Zone field in *Page*
      *
      * - **Field Type**: Slice Zone

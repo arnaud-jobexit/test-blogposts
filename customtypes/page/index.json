@@ -31,6 +31,16 @@
           ]
         }
       },
+      "blogposts": {
+        "type": "Link",
+        "config": {
+          "label": "blogposts",
+          "select": "document",
+          "customtypes": [
+            "blogposts"
+          ]
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
