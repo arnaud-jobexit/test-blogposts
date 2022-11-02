@@ -1,12 +1,14 @@
 import React from 'react'
 import { PrismicRichText, PrismicLink } from '@prismicio/react'
+import { createClient } from '../../prismicio'
 /**
  * @typedef {import("@prismicio/client").Content.BlogPostsSlice} BlogPostsSlice
  * @typedef {import("@prismicio/react").SliceComponentProps<BlogPostsSlice>} BlogPostsProps
  * @param { BlogPostsProps }
  */
-const BlogPosts = ({ slice }) => {
+const BlogPosts = ({ slice, document }) => {
   console.log(slice)
+  console.log(document)
   return (
     <section className='container px-5 mx-auto py-24'>
       <div className='text-center flex flex-col space-y-4'>
@@ -40,3 +42,36 @@ const BlogPosts = ({ slice }) => {
 }
 
 export default BlogPosts
+
+export async function getStaticProps({ params, locale, previewData }) {
+  const client = createClient({ previewData });
+  client.getByUID("blogposts", params.uid, {
+    graphQuery: `
+    {
+      author {
+        name,
+        position,
+        picture
+      }
+    }
+  `
+  ,lang: locale });
+
+  return {
+    props: { document },
+  };
+}
+
+export async function getStaticPaths() {
+  const client = createClient();
+  const posts = await client.getAllByType("blogposts", { lang: "*" });
+  return {
+    paths: posts.map((post) => {
+      return {
+        params: { uid: post.uid },
+        locale: post.lang,
+      };
+    }),
+    fallback: false,
+  };
+}
