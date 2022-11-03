@@ -43,40 +43,43 @@ const BlogPosts = ({ slice, document }) => {
 
 export default BlogPosts
 
-// export async function getStaticProps({ params, locale, previewData }) {
-//   const client = createClient({ previewData })
-  
-//   const document = await client.getByUID("blogposts", params.uid, {
-//     graphQuery: `
-//     {
-//       blogposts {
-//         author {
-//           ...on author {
-//             uid
-//             picture
-//             name
-//             position
-//           }
-//         }
-//       }
-//     }
-//   `})
+export async function getStaticProps({ params, locale, previewData }) {
+  const client = createClient({ previewData });
+  const document = await client.getByUID("blogposts", params.uid, {
+    graphQuery: `
+    {
+      blogposts {
+        uid
+        title
+        picture
+        contenttext
+        author {
+          ...on author {
+            uid
+            picture
+            name
+            position
+          }
+        }
+      }
+    }
+  `})
+      
+  return {
+    props: { document },
+  };
+}
 
-//   return {
-//     props: { document },
-//   };
-// }
-
-// export async function getStaticPaths() {
-//   const client = createClient();
-//   const posts = await client.getAllByType("blogposts", { lang: "*" });
-//   return {
-//     paths: posts.map((post) => {
-//       return {
-//         params: { uid: post.uid },
-//         locale: post.lang,
-//       };
-//     }),
-//     fallback: false,
-//   };
-// }
+export async function getStaticPaths() {
+  const client = createClient();
+  const posts = await client.getAllByType("blogposts", { lang: "*" });
+  return {
+    paths: posts.map((post) => {
+      return {
+        params: { uid: post.uid },
+        locale: post.lang,
+      };
+    }),
+    fallback: false,
+  };
+}
